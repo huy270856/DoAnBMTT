@@ -1,0 +1,11 @@
+# Bỏ qua thư mục dữ liệu và ảnh
+data_raw/
+images_dataset/
+
+# Bỏ qua file model quá nặng
+models/
+*.keras
+
+# Bỏ qua log và file rác của Python
+convert_log.txt
+__pycache__/

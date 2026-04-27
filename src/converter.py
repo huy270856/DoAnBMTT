@@ -1,96 +1,79 @@
-import numpy as np
-from PIL import Image
-import math
 import os
+import numpy as np
+import matplotlib.pyplot as plt
+import logging
 
-def calculate_entropy_block(block):
-    # SỬA LỖI TẠI ĐÂY: Kiểm tra mảng Numpy đúng cách
-    if block is None or len(block) == 0: 
-        return 0
-    
-    values, counts = np.unique(block, return_counts=True)
-    probs = counts / len(block)
-    entropy = -np.sum(probs * np.log2(probs + 1e-9)) # Thêm 1 số rất nhỏ để tránh lỗi log(0)
-    return (entropy / 8.0) * 255
+RAW_DIR = r"C:\Huy_Malware_AI_v2\data_raw"
+IMG_DIR = r"C:\Huy_Malware_AI_v2\images_dataset"
+LOG_FILE = r"C:\Huy_Malware_AI_v2\convert_log.txt"
 
-def file_to_rgb_image(file_path, save_path, img_size=256):
+logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(message)s')
+
+MAX_SIZE = 5242880
+SAMPLING_RATE = 44100
+NFFT_WINDOW = 2048
+HOP_LENGTH = 512
+NOVERLAP = NFFT_WINDOW - HOP_LENGTH
+
+def convert_to_spectrogram(src_path, dst_path):
+    if os.path.exists(dst_path):
+        return "SKIPPED_EXISTS"
+
     try:
-        target_len = img_size * img_size
-        with open(file_path, 'rb') as f:
-            raw_bytes = f.read()
-            if not raw_bytes: 
-                return False
-            data = np.frombuffer(raw_bytes, dtype=np.uint8)
+        file_size = os.path.getsize(src_path)
         
-        # Thuật toán ép dữ liệu cho file nhỏ
-        if len(data) < target_len:
-            repeats = (target_len // len(data)) + 1
-            data = np.tile(data, repeats)[:target_len]
-        else:
-            data = data[:target_len]
-        
-        # Kênh Red: Dữ liệu thô
-        red = data.reshape((img_size, img_size))
-        
-        # Kênh Green: Entropy
-        green_flat = np.zeros(target_len)
-        step = 16 
-        for i in range(0, target_len, step):
-            block = data[i:i+step]
-            green_flat[i:i+step] = calculate_entropy_block(block)
-        green = green_flat.reshape((img_size, img_size)).astype(np.uint8)
-        
-        # Kênh Blue: Vị trí
-        blue = np.linspace(0, 255, target_len).reshape((img_size, img_size)).astype(np.uint8)
-        
-        # Gộp thành ảnh màu
-        rgb_img = np.stack((red, green, blue), axis=-1)
-        Image.fromarray(rgb_img, 'RGB').save(save_path)
-        return True
+        if file_size < 10240:
+            logging.info(f"[SKIPPED_TOO_SMALL] {src_path} ({file_size} bytes)")
+            return "SKIPPED_SMALL"
+
+        with open(src_path, 'rb') as f:
+            raw_bytes = f.read(MAX_SIZE)
+
+        if len(raw_bytes) % 2 != 0:
+            raw_bytes += b'\x00'
+
+        signal = np.frombuffer(raw_bytes, dtype=np.int16)
+
+        fig, ax = plt.subplots(figsize=(2.56, 2.56))
+        fig.subplots_adjust(left=0, right=1, bottom=0, top=1)
+        ax.axis('off')
+
+        fig.patch.set_facecolor('#000004')
+        ax.set_facecolor('#000004')
+
+        ax.specgram(signal, NFFT=NFFT_WINDOW, Fs=SAMPLING_RATE, 
+                    window=np.hanning(NFFT_WINDOW), noverlap=NOVERLAP, cmap='inferno')
+
+        fig.savefig(dst_path, dpi=100, bbox_inches='tight', pad_inches=0, facecolor=fig.get_facecolor())
+        plt.close(fig)
+
+        logging.info(f"[SUCCESS] {src_path}")
+        return "SUCCESS"
+
     except Exception as e:
-        print(f"❌ Lỗi tại file {os.path.basename(file_path)}: {e}")
-        return False
+        logging.error(f"[ERROR] {src_path} - {str(e)}")
+        return "ERROR"
 
-# --- CẤU HÌNH ĐƯỜNG DẪN ---
-current_dir = os.path.dirname(os.path.abspath(__file__))
-root_dir = os.path.dirname(current_dir)
-input_base = os.path.join(root_dir, "data_raw")
-output_base = os.path.join(root_dir, "images_dataset")
+def main():
+    print(f"Bat dau convert, check log chi tiet tai: {LOG_FILE}")
+    for category in ['benign', 'malware']:
+        cat_raw_dir = os.path.join(RAW_DIR, category)
+        cat_img_dir = os.path.join(IMG_DIR, category)
+        os.makedirs(cat_img_dir, exist_ok=True)
 
-# Giữ nguyên tên folder của Huy nè
-categories = ["begin", "malware"] 
+        if not os.path.exists(cat_raw_dir):
+            continue
 
-# ... (Giữ nguyên phần trên của converter.py) ...
-
-for cat in categories:
-    in_dir = os.path.join(input_base, cat)
-    out_dir = os.path.join(output_base, cat)
-    
-    if not os.path.exists(in_dir):
-        continue
+        files = [f for f in os.listdir(cat_raw_dir) if os.path.isfile(os.path.join(cat_raw_dir, f))]
+        total = len(files)
         
-    os.makedirs(out_dir, exist_ok=True) 
-    files = [f for f in os.listdir(in_dir) if os.path.isfile(os.path.join(in_dir, f))]
-    
-    print(f"\n--- Processing: {cat.upper()} ---")
-    
-    skip_count = 0
-    convert_count = 0
-
-    for file_name in files:
-        in_path = os.path.join(in_dir, file_name)
-        out_name = file_name + ".png"
-        out_path = os.path.join(out_dir, out_name)
-
-        # 🕵️ KIỂM TRA: Nếu ảnh đã tồn tại thì bỏ qua luôn
-        if os.path.exists(out_path):
-            skip_count += 1
-            continue 
+        for i, filename in enumerate(files):
+            src_path = os.path.join(cat_raw_dir, filename)
+            dst_path = os.path.join(cat_img_dir, f"{filename}.png")
+            convert_to_spectrogram(src_path, dst_path)
             
-        if file_to_rgb_image(in_path, out_path):
-            print(f"✅ New: {file_name}")
-            convert_count += 1
+            if (i + 1) % 100 == 0 or (i + 1) == total:
+                print(f"Da xu ly {i + 1}/{total} files ({category})")
 
-    print(f"📊 Kết quả: Mới ({convert_count}) - Đã có ({skip_count})")
-
-print(f"\n--- XONG! Huy không cần đợi convert lại file cũ nữa nhé ---")
+if __name__ == "__main__":
+    main()
