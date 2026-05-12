@@ -9,3 +9,6 @@ models/
 # Bỏ qua log và file rác của Python
 convert_log.txt
 __pycache__/
+dist/
+build/
+*.rar

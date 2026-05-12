@@ -1,0 +1,5 @@
+{
+  "version": 2.3,
+  "model_url": "https://link-tai-file-model-moi.keras",
+  "message": "Cập nhật thuật toán nhận diện DGA Malware và sửa lỗi nhận nhầm AnyDesk."
+}
