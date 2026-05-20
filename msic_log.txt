@@ -1,15 +1,6 @@
-[17/05/2026 00:39:13] [MALWARE] D:/CACTHUDCTAI/PMTuan_6014_tu/Huy_Malware_AI_v2/Huy_Malware_AI_v2/data_raw/malware/003b780abec3cf77df45838f40b0fa63602501499fce9fb980545003e4804c3e.exe
-[17/05/2026 00:43:39] [MALWARE] D:/CACTHUDCTAI/PMTuan_6014_tu/Huy_Malware_AI_v2/Huy_Malware_AI_v2/data_raw/malware/00ca6e2c0cf97d95fbe2bde0f38659e8c7a47fdc4fa784be828aff5e051dd64b.exe
-[17/05/2026 00:44:06] [MALWARE] D:/CACTHUDCTAI/PMTuan_6014_tu/Huy_Malware_AI_v2/Huy_Malware_AI_v2/data_raw/malware/0a375c52851b79c5d3be0d18025940bee5f68501c8e18334264f116775e57fa7.exe
-[17/05/2026 00:44:13] [MALWARE] D:/CACTHUDCTAI/PMTuan_6014_tu/Huy_Malware_AI_v2/Huy_Malware_AI_v2/data_raw/malware/0a186671477b6796f1df9ba4bca54147761fedf6284a0d88caabe83b8502e684.exe
-[17/05/2026 00:44:29] [AN TOÀN] D:/CACTHUDCTAI/Rar.exe
-[17/05/2026 00:44:56] [MALWARE] D:/CACTHUDCTAI/SteamSetup.exe
-[17/05/2026 00:45:09] [MALWARE] D:/CACTHUDCTAI/SteamSetup.exe
-[17/05/2026 00:45:30] [MALWARE] D:/CACTHUDCTAI/MAYCHUAO/7z2600-x64.exe
-[17/05/2026 00:46:07] [AN TOÀN] C:/Program Files (x86)/Epic Games/Epic Online Services/EpicOnlineServicesUIHelper.exe
-[17/05/2026 00:48:46] [MALWARE] C:/Program Files (x86)/Epic Games/Epic Online Services/msvcp140_2.dll
-[17/05/2026 00:49:03] [AN TOÀN] C:/Program Files (x86)/Garena/Garena/Garena.exe
-[17/05/2026 00:49:55] [AN TOÀN] C:/Program Files (x86)/Garena/Garena/Garena.exe
-[17/05/2026 00:50:13] [MALWARE] C:/Program Files (x86)/Microsoft.NET/Primary Interop Assemblies/Microsoft.mshtml.dll
-[17/05/2026 00:50:20] [AN TOÀN] C:/Program Files (x86)/Microsoft.NET/Primary Interop Assemblies/Microsoft.stdformat.dll
-[17/05/2026 00:50:31] [MALWARE] C:/Program Files (x86)/Microsoft.NET/Primary Interop Assemblies/Microsoft.mshtml.dll
+[18/05/2026 19:02:56] [MALWARE] D:/CACTHUDCTAI/PMTuan_6014_tu/Huy_Malware_AI_v2/Huy_Malware_AI_v2/data_raw/malware/00bedb55d621e47153472c34561cf8e101bd3b2e70d7c21c6c91cbf29e460528.exe
+[18/05/2026 19:03:47] [MALWARE] D:/CACTHUDCTAI/PMTuan_6014_tu/Huy_Malware_AI_v2/Huy_Malware_AI_v2/data_raw/malware/0a5854a19720fb68c198ee74347c0a3029cbfa5d9d0166ecda1eaba5aca741a7.exe
+[18/05/2026 22:54:19] [MALWARE] E:/tuanp/Documents/0a17e2ca8f223de67c0864fac1d24c7bb2d0c796c46e9ce04e4dff374c577ea1.exe
+[18/05/2026 22:54:23] [ĐÃ XÓA FILE MÃ ĐỘC] E:/tuanp/Documents/0a17e2ca8f223de67c0864fac1d24c7bb2d0c796c46e9ce04e4dff374c577ea1.exe
+[18/05/2026 23:41:54] [MALWARE] D:/CACTHUDCTAI/PMTuan_6014_tu/Huy_Malware_AI_v2/Huy_Malware_AI_v2/data_raw/malware/001b0c9dbf1672e7819dd0d7b77d401150a67d3e1e28fe10c4ca0de189c7922c.exe
+[18/05/2026 23:42:02] [NGƯỜI DÙNG GIỮ LẠI FILE NGUY HIỂM] D:/CACTHUDCTAI/PMTuan_6014_tu/Huy_Malware_AI_v2/Huy_Malware_AI_v2/data_raw/malware/001b0c9dbf1672e7819dd0d7b77d401150a67d3e1e28fe10c4ca0de189c7922c.exe
